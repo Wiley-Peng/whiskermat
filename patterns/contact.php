@@ -33,15 +33,11 @@
 			<!-- wp:heading {"level":2} -->
 			<h2 class="wp-block-heading">Send us a message</h2>
 			<!-- /wp:heading -->
-			<!-- wp:html -->
-			<form class="wm-form" action="#" method="post">
-				<label>Name<input type="text" name="name" placeholder="Jane Doe" required /></label>
-				<label>Email<input type="email" name="email" placeholder="jane@example.com" required /></label>
-				<label>Order number (optional)<input type="text" name="order" placeholder="e.g. WM-20481" /></label>
-				<label>Message<textarea name="message" rows="5" placeholder="Tell us what's going on — the more detail the better." required></textarea></label>
-				<button class="wp-element-button" type="submit">Send message</button>
-			</form>
-			<!-- /wp:html -->
+			<?php if ( shortcode_exists( 'fluentform' ) ) {
+				echo do_shortcode( '[fluentform id="2"]' );
+			} else { ?>
+				<p class="wm-form-fallback">Email us at <a href="mailto:hello@whiskermat.com">hello@whiskermat.com</a> and we will reply within one business day.</p>
+			<?php } ?>
 			<!-- wp:paragraph -->
 			<p><small>We reply within one business day, Monday to Friday. Replace this form with WPForms or Contact Form 7 for real delivery.</small></p>
 			<!-- /wp:paragraph -->

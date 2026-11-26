@@ -431,12 +431,7 @@
 		<!-- wp:paragraph -->
 		<p>10% off your first mat, plus the occasional cat photo. No spam, ever.</p>
 		<!-- /wp:paragraph -->
-		<!-- wp:html -->
-		<form class="wm-form-row" action="#" method="post">
-			<input type="email" name="email" placeholder="Your email address" required />
-			<button class="wp-element-button" type="submit">Get 10% off</button>
-		</form>
-		<!-- /wp:html -->
+		<?php echo do_shortcode( '[fluentform id="3"]' ); ?>
 		<!-- wp:paragraph -->
 		<p><small>By subscribing you agree to our privacy policy.</small></p>
 		<!-- /wp:paragraph -->
