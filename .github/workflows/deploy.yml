@@ -60,8 +60,12 @@ jobs:
 
       - name: Flush caches on server
         run: |
-          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
-            'cd /var/www/whiskermat && wp cache flush --allow-root && wp rewrite flush --allow-root'
+          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '\
+            cd /var/www/whiskermat && \
+            rm -rf wp-content/cache/supercache/* && \
+            wp cache flush --allow-root && \
+            wp rewrite flush --allow-root \
+          '
 
       - name: Smoke test
         run: |
