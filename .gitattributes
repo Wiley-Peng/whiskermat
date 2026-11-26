@@ -1,0 +1,14 @@
+# Normalize line endings so the repo and CI never see CRLF (Theme Check rejects mixed endings)
+* text=auto eol=lf
+
+# Binary assets must stay untouched
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.zip binary
