@@ -1,0 +1,79 @@
+name: Deploy WhiskerMat theme
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  lint:
+    name: Lint PHP
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PHP CLI
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq php-cli
+
+      - name: php -l on every PHP file
+        run: |
+          set -e
+          fail=0
+          while IFS= read -r -d '' f; do
+            if ! php -l "$f" > /dev/null 2>&1; then
+              echo "::error file=$f::PHP syntax error"
+              php -l "$f" || true
+              fail=1
+            fi
+          done < <(find . -name '*.php' -not -path './.git/*' -print0)
+          exit $fail
+
+  deploy:
+    name: Deploy to production
+    needs: lint
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Rsync theme to server
+        run: |
+          rsync -az --delete \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='node_modules' \
+            --exclude='.DS_Store' \
+            ./ "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/whiskermat/wp-content/themes/whiskermat/"
+
+      - name: Flush caches on server
+        run: |
+          ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" \
+            'cd /var/www/whiskermat && wp cache flush --allow-root && wp rewrite flush --allow-root'
+
+      - name: Smoke test
+        run: |
+          set -e
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://whiskermat.shop/)
+          echo "HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "::error::Homepage returned $code"
+            exit 1
+          fi
+
+      - name: Rollback hint on failure
+        if: failure()
+        run: |
+          echo "::warning::Deploy failed. Revert the last commit and push, or restore /root/backups/ on the server."

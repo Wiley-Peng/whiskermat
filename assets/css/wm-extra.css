@@ -590,3 +590,225 @@
 @media (max-width: 781px) {
 	.wm-demo-products { grid-template-columns: 1fr; }
 }
+/* ------------------------------------------------------------------
+   v1.4.4  Single product (Woo block template) layout
+   The product page is rendered by WooCommerce's blockified
+   `single-product` template, so the classic .summary / .images
+   selectors in style.css never match. These rules rebuild the
+   55/45 two column layout for the block markup instead.
+   ------------------------------------------------------------------ */
+.single-product .wp-block-columns {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 8px 24px 24px;
+	gap: 64px;
+	align-items: flex-start;
+}
+.single-product .wp-block-columns > .wp-block-column:first-child {
+	flex-basis: 52% !important;
+	flex-grow: 0 !important;
+}
+.single-product .wp-block-columns > .wp-block-column:last-child {
+	flex-basis: calc(48% - 64px) !important;
+	flex-grow: 0 !important;
+}
+
+/* Gallery container */
+.single-product .wp-block-woocommerce-product-image-gallery {
+	position: relative;
+}
+.single-product .wp-block-woocommerce-product-image-gallery .woocommerce-product-gallery {
+	width: 100% !important;
+	float: none !important;
+	margin: 0 !important;
+	border-radius: 24px;
+	overflow: hidden;
+	background: linear-gradient(180deg, #f3e9da, #e4d3ba);
+}
+.single-product .wp-block-woocommerce-product-image-gallery .flex-viewport {
+	height: auto !important;
+}
+.single-product .wp-block-woocommerce-product-image-gallery .woocommerce-product-gallery__wrapper {
+	margin: 0;
+}
+.single-product .wp-block-woocommerce-product-image-gallery img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* Thumbnails: four equal squares under the main image */
+.single-product .flex-control-thumbs {
+	display: grid !important;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+	margin: 14px 0 0 !important;
+	padding: 0 !important;
+}
+.single-product .flex-control-thumbs li {
+	width: auto !important;
+	float: none !important;
+	margin: 0 !important;
+	list-style: none;
+}
+.single-product .flex-control-thumbs li img {
+	border-radius: 14px;
+	border: 2px solid transparent;
+	transition: border-color .18s ease;
+}
+.single-product .flex-control-thumbs li img.flex-active {
+	border-color: var(--wm-forest);
+}
+
+/* Right column typography */
+.single-product .wp-block-columns > .wp-block-column:last-child h1,
+.single-product .wp-block-woocommerce-product-title {
+	font-family: var(--wm-display);
+	font-size: 40px;
+	line-height: 1.12;
+	letter-spacing: -0.02em;
+	margin: 0 0 12px;
+}
+.single-product .wp-block-woocommerce-product-price {
+	font-family: var(--wm-display);
+	font-size: 32px;
+	margin-bottom: 16px;
+}
+.single-product .wp-block-woocommerce-product-price del {
+	font-family: var(--wm-body);
+	font-size: 16px;
+	color: #8c948b;
+}
+
+@media (max-width: 781px) {
+	.single-product .wp-block-columns {
+		flex-direction: column;
+		gap: 20px;
+		padding: 0 20px 32px;
+	}
+	.single-product .wp-block-columns > .wp-block-column:first-child,
+	.single-product .wp-block-columns > .wp-block-column:last-child {
+		flex-basis: 100% !important;
+		width: 100% !important;
+	}
+	.single-product .wp-block-columns > .wp-block-column:last-child h1,
+	.single-product .wp-block-woocommerce-product-title {
+		font-size: 28px;
+	}
+	.single-product .flex-control-thumbs {
+		gap: 8px;
+	}
+}
+/* Specificity fix: the classic rule
+   `.single-product div.product .woocommerce-product-gallery` (0,3,2)
+   beat the block rule above (0,3,0). Add `.images` to win. */
+.single-product .wp-block-woocommerce-product-image-gallery {
+	max-width: none !important;
+	width: 100% !important;
+}
+.single-product .wp-block-woocommerce-product-image-gallery .woocommerce-product-gallery.images {
+	width: 100% !important;
+	max-width: none !important;
+	float: none !important;
+}
+/* Breadcrumb sits above the columns; give the gallery room on small screens. */
+.single-product .wp-block-woocommerce-breadcrumbs {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px 24px 4px;
+}
+@media (max-width: 781px) {
+	.single-product .wp-block-woocommerce-breadcrumbs {
+		padding: 14px 20px 0;
+	}
+	.single-product .wp-block-columns {
+		padding-top: 10px;
+	}
+}
+/* ------------------------------------------------------------------
+   v1.4.5  Variation selectors on the block product page
+   The Woo block template renders a plain <table class="variations">,
+   so the select lost its arrow and the label sat flush against it.
+   ------------------------------------------------------------------ */
+.single-product .woocommerce-variation-add-to-cart,
+.single-product .variations_form {
+	width: 100%;
+}
+.single-product table.variations {
+	width: 100%;
+	margin: 0 0 18px;
+	border-collapse: separate;
+	border-spacing: 0 10px;
+}
+.single-product table.variations th.label,
+.single-product table.variations td.value {
+	padding: 0;
+	vertical-align: middle;
+	border: 0;
+}
+.single-product table.variations th.label {
+	width: 84px;
+	text-align: left;
+}
+.single-product table.variations th.label label {
+	display: inline-block;
+	font-family: var(--wm-body);
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: var(--wm-muted);
+}
+.single-product table.variations td.value {
+	position: relative;
+}
+
+/* Custom select: pill shape + chevron drawn as a background image */
+.single-product table.variations select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	width: 100%;
+	max-width: 320px;
+	height: 52px;
+	margin: 0;
+	padding: 0 46px 0 20px;
+	border: 1px solid var(--wm-line);
+	border-radius: 999px;
+	background-color: #fff;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2314201A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 18px center;
+	background-size: 16px 16px;
+	font-family: var(--wm-body);
+	font-size: 15px;
+	color: var(--wm-ink);
+	cursor: pointer;
+}
+.single-product table.variations select:focus {
+	outline: none;
+	border-color: var(--wm-forest);
+	box-shadow: 0 0 0 3px rgba(31, 61, 43, .12);
+}
+.single-product .variations .reset_variations {
+	display: inline-block;
+	margin-left: 12px;
+	font-size: 12px;
+	color: var(--wm-muted);
+	text-decoration: underline;
+}
+.single-product .woocommerce-variation-price .price {
+	font-family: var(--wm-display);
+	font-size: 30px;
+	line-height: 1.2;
+}
+
+@media (max-width: 781px) {
+	.single-product table.variations th.label {
+		width: 64px;
+	}
+	.single-product table.variations select {
+		max-width: none;
+		height: 48px;
+	}
+}

@@ -3,7 +3,7 @@ Contributors: wileypeng
 Requires at least: 6.6
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.4.3
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ Yes. Go to Appearance > Customize > Site Identity, or use the Site Logo block
 inside the Site Editor header.
 
 == Changelog ==
+
+= 1.4.5 =
+* Styled the variation dropdown on the block product page: pill shaped select with a visible chevron, uppercase label aligned to the field, and a larger display-font price for the selected variation.
+
+= 1.4.4 =
+* Fixed the single product layout for the WooCommerce block template: the image gallery now spans the left 52% column instead of being locked to 48% of a 512px block, with a four-up thumbnail grid and matching mobile stacking.
+* Added max-width overrides so product images fill their column on the blockified product page.
 
 = 1.4.3 =
 * Updated the contributor handle.
