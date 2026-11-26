@@ -52,8 +52,11 @@ jobs:
       - name: Rsync theme to server
         run: |
           rsync -az --delete \
+            --chown=www-data:www-data \
             --exclude='.git' \
             --exclude='.github' \
+            --exclude='.gitignore' \
+            --exclude='.gitattributes' \
             --exclude='node_modules' \
             --exclude='.DS_Store' \
             ./ "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/var/www/whiskermat/wp-content/themes/whiskermat/"
@@ -62,6 +65,8 @@ jobs:
         run: |
           ssh "${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}" '\
             cd /var/www/whiskermat && \
+            rm -f wp-content/themes/whiskermat/.gitignore wp-content/themes/whiskermat/.gitattributes && \
+            chown -R www-data:www-data wp-content/themes/whiskermat && \
             rm -rf wp-content/cache/supercache/* && \
             wp cache flush --allow-root && \
             wp rewrite flush --allow-root \
