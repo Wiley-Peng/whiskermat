@@ -1,9 +1,9 @@
-﻿<?php
+<?php
 /**
  * Title: About page
  * Slug: whiskermat/about
  * Categories: whiskermat
- * Description: About WhiskerMat 鈥?story, stats, values and timeline.
+ * Description: About WhiskerMat - story, stats, values and timeline.
  */
 ?>
 <!-- wp:group {"tagName":"section","className":"wm-section is-cream wm-hero-about","layout":{"type":"default"}} -->
