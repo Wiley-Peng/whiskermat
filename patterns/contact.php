@@ -36,7 +36,7 @@
 			<?php if ( shortcode_exists( 'fluentform' ) ) {
 				echo do_shortcode( '[fluentform id="2"]' );
 			} else { ?>
-				<p class="wm-form-fallback">Email us at <a href="mailto:hello@whiskermat.com">hello@whiskermat.com</a> and we will reply within one business day.</p>
+				<p class="wm-form-fallback">Email us at <a href="mailto:hello@example.com">hello@example.com</a> and we will reply within one business day.</p>
 			<?php } ?>
 			<!-- wp:paragraph -->
 			<p><small>We reply within one business day, Monday to Friday. Replace this form with WPForms or Contact Form 7 for real delivery.</small></p>
@@ -55,7 +55,7 @@
 				<h3 class="wp-block-heading">Email us</h3>
 				<!-- /wp:heading -->
 				<!-- wp:paragraph -->
-				<p><a href="mailto:hello@whiskermat.com">hello@whiskermat.com</a><br /><small>Replies within 1 business day</small></p>
+				<p><a href="mailto:hello@example.com">hello@example.com</a><br /><small>Replies within 1 business day</small></p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:group -->
